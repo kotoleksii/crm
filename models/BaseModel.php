@@ -17,6 +17,13 @@ class BaseModel
         return DB::run($sql);
     } 
 
+    protected function getAllSorted(string $field, int $direction)
+    {
+        $sql = "SELECT * FROM $this->tableName ORDER BY $field ";
+        $sql .= $direction ? 'ASC;' : 'DESC;';
+        return DB::run($sql);
+    }
+
     protected function addRow($args)
     {
         //dump($args);
@@ -43,19 +50,17 @@ class BaseModel
         return DB::run($sql, $args); 
     }
 
-    // protected function getOne($args)
-    // {
-    //     $conditions = array_map(fn($k) => "$k = :$k", array_keys($args));
-    //     $sql = "SELECT * FROM $this->tableName WHERE " . implode(' AND ', $conditions) . ' LIMIT 1;';
-        
-    //     return DB::run($sql, $args);
-    // }
-
     protected function updateRow($id, $args)
     {
         $setters = array_map(fn($k) => "$k = :$k", array_keys($args));
 
         $sql = "UPDATE $this->tableName SET " . implode(', ', $setters) . " WHERE id=$id";
         DB::run($sql, $args);
+    }
+
+    protected function deleteRow($id)
+    {
+        $sql = "DELETE FROM $this->tableName WHERE id = :id";
+        DB::run($sql, ['id' => $id]);
     }
 }

@@ -7,31 +7,65 @@ class WorkerController
 {
     public function actionIndex()
     {
-        $currentUser = CookiesManager::$authUser;
-        $title = 'Workers list';
-
         $wm = new WorkerModel();
-        $workers = $wm->get();
-
-        $contentViewPath = ROOT . '/views/worker/ListView.php';
-
-        require_once(ROOT . '/views/layouts/MainView.php');
-
-
-        //TODO
-        if(!isset($_POST['frm_workers'])) {
-            require_once($contentViewPath);
-        } else{
+       
+        if(isset($_POST['frm_add_worker'])) {  
+            if(isset($_POST['btn_add'])) {
+                $data = [
+                    'first_name' => $_POST['first_name'],
+                    'last_name' => $_POST['last_name'],
+                    'phone' => $_POST['phone'],
+                    'status' => $_POST['status'] ==='on' ? true : false,
+                    'salary' => $_POST['salary'],
+                ];
+                $wm->add($data);
+    
+            } 
             
-            $data = [
-                'first_name' => $_POST['first_name'],
-                'last_name' => $_POST['last_name'],
-                'phone' => $_POST['phone'],
-                'status' => $_POST['status'],
-                'salary' => $_POST['salary'],
-            ];
-            $wm->add($data);
+            header('Location: /workers');
+            
+        } else {
+            if(isset($_POST['frm_sorting'])) {
+                $field = $_POST['field'];
+
+                if (isset($_COOKIE['direction'])) {
+                    if($_COOKIE['direction'] === '1') {
+                        $direction = 0;
+                        setcookie('direction', '0', time() + (3600 * 24 * 30), '/');
+                    } else {
+                        $direction = 1;
+                        setcookie('direction', '1', time() + (3600 * 24 * 30), '/');
+                    }
+                } else {
+                    $direction = 1;
+                    setcookie('direction', '1', time() + (3600 * 24 * 30), '/');
+                }
+
+                $workers = $wm->getSortedList($field, $direction);
+            } else {
+                $workers = $wm->get();
+            }
+
+
+            $currentUser = CookiesManager::$authUser;
+            $title = 'Workers list';  
+    
+            $contentViewPath = ROOT . '/views/worker/ListView.php';   
+            require_once(ROOT . '/views/layouts/MainView.php'); 
         }
         
+       
+    }
+
+    public function actionEdit($id)
+    {
+        dd($id);
+    }
+
+    public function actionDelete($id)
+    {
+        $wm = new WorkerModel();
+        $wm->delete($id);
+        header('Location: /workers');
     }
 }

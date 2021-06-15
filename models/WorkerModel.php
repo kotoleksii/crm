@@ -15,9 +15,21 @@ class WorkerModel extends BaseModel
         return array_map(fn($warr) => new Worker($warr), $this->getAll()->fetchAll());
     }
 
+    public function getSortedList(string $field, int $direction)
+    {
+        return array_map(fn($warr) => new Worker($warr), $this->getAllSorted($field, $direction)->fetchAll());
+    }
+
     public function add($fields)
     {        
         $this->addRow($fields);
     }
+
+    public function delete($id)
+    {
+        $this->deleteRow($id);
+    }
+
+    
 
 }
