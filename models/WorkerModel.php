@@ -10,17 +10,17 @@ class WorkerModel extends BaseModel
         parent::__construct('workers');
     }
 
-    public function get()
+    public function get(): array
     {
         return array_map(fn($warr) => new Worker($warr), $this->getAll()->fetchAll());
     }
 
-    public function getSortedList(string $field, int $direction)
+    public function getSortedList(string $field, int $direction): array
     {
         return array_map(fn($warr) => new Worker($warr), $this->getAllSorted($field, $direction)->fetchAll());
     }
 
-    public function getById($id)
+    public function getById($id): Worker
     {
         return new Worker($this->getSome(['id' => $id])->fetch());
     }

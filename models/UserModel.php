@@ -11,12 +11,12 @@ class UserModel extends BaseModel
         parent::__construct('users');
     }
 
-    private function generateToken(int $length): string 
+    private function generateToken(int $length): string
     {
         return bin2hex(random_bytes($length));
     }
 
-    public function get()
+    public function get(): array
     {
         return $this->getAll()->fetchAll();
     }

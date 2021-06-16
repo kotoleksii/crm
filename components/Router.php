@@ -11,7 +11,7 @@ class Router
         $this->routes = include(ROOT . '/config/routes.php');
     }
     
-    private function getUri()
+    private function getUri(): string
     {
         $uri = $_SERVER['REQUEST_URI'];
 

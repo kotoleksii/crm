@@ -5,7 +5,7 @@ require_once(ROOT . '/models/UserModel.php');
 
 class UserController
 {
-    private function checkFields($fields)
+    private function checkFields($fields): array
     {
         $errors = [];
         foreach ($fields as $key => $item) {
@@ -16,7 +16,7 @@ class UserController
         return $errors;
     }
 
-    private function encodePassword($pass)
+    private function encodePassword($pass): string
     {
         return md5($pass);
     }

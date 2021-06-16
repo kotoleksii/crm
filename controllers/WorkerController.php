@@ -53,8 +53,6 @@ class WorkerController
             $contentViewPath = ROOT . '/views/worker/ListView.php';   
             require_once(ROOT . '/views/layouts/MainView.php'); 
         }
-        
-       
     }
 
     public function actionEdit($id)
