@@ -34,7 +34,7 @@
                             <td><?=$worker->salary?></td>
 
                             <td>
-                                <a class="btn btn-warning btn-sm">Edit
+                                <a class="btn btn-warning btn-sm" href="/editworker/<?=$worker->id?>">Edit
                                     <i class="bi bi-pencil-fill"></i>
                                 </a>
 

@@ -20,9 +20,19 @@ class WorkerModel extends BaseModel
         return array_map(fn($warr) => new Worker($warr), $this->getAllSorted($field, $direction)->fetchAll());
     }
 
+    public function getById($id)
+    {
+        return new Worker($this->getSome(['id' => $id])->fetch());
+    }
+
     public function add($fields)
     {        
         $this->addRow($fields);
+    }
+
+    public function update($id, $fields)
+    {
+        $this->updateRow($id, $fields);
     }
 
     public function delete($id)

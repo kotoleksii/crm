@@ -59,7 +59,43 @@ class WorkerController
 
     public function actionEdit($id)
     {
-        dd($id);
+        $wm = new WorkerModel();
+
+        if(!isset($_POST['frm_edit_worker'])) {
+            $currentUser = CookiesManager::$authUser;
+            $title = 'Edit Worker';
+
+            $worker = $wm->getById($id);
+
+            $contentViewPath = ROOT . '/views/worker/EditView.php';   
+            require_once(ROOT . '/views/layouts/MainView.php');
+        } else {
+            $id = $_POST['id'];
+            $data = [
+                'first_name' => $_POST['first_name'],
+                'last_name' => $_POST['last_name'],
+                'phone' => $_POST['phone'],
+                'status' => $_POST['status'] ==='on' ? true : false,
+                'salary' => $_POST['salary'],
+            ];
+
+            $wm->update($id, $data);
+
+            header('Location: /workers');
+            return;            
+        }
+
+
+        
+
+
+        
+         
+
+
+
+
+
     }
 
     public function actionDelete($id)
